@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CipherLab — Encryption & Decryption Toolkit</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-icon">🔐</div>
+    <h1>CipherLab</h1>
+    <p class="subtitle">// encryption &amp; decryption toolkit — AES · Caesar · Vigenere · Base64 · ROT-13 · XOR</p>
+  </div>
+
+  <!-- Algorithm Selection -->
+  <div class="card">
+    <div class="section-label">▶ Algorithm</div>
+    <div class="algo-tabs" id="algo-tabs">
+      <button class="algo-btn active" data-algo="aes">AES-256</button>
+      <button class="algo-btn" data-algo="caesar">Caesar Cipher</button>
+      <button class="algo-btn" data-algo="vigenere">Vigenere</button>
+      <button class="algo-btn" data-algo="base64">Base64</button>
+      <button class="algo-btn" data-algo="rot13">ROT-13</button>
+      <button class="algo-btn" data-algo="xor">XOR</button>
+    </div>
+
+    <div class="algo-info" id="algo-info"></div>
+
+    <div class="key-row" id="key-row"></div>
+
+    <div class="io-grid">
+      <div class="io-box">
+        <div class="field-label">Plaintext / Ciphertext Input</div>
+        <textarea id="input-text" placeholder="Enter your message here..."></textarea>
+      </div>
+      <div class="io-box">
+        <div class="io-header">
+          <div class="field-label">Output</div>
+          <button class="copy-btn" id="copy-btn">⎘ copy</button>
+        </div>
+        <textarea id="output-text" placeholder="Result appears here..." readonly></textarea>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn btn-encrypt" id="btn-encrypt">🔒 Encrypt</button>
+      <button class="btn btn-decrypt" id="btn-decrypt">🔓 Decrypt</button>
+      <button class="btn btn-swap" id="btn-swap">⇄ Swap</button>
+      <button class="btn btn-clear" id="btn-clear">✕ Clear</button>
+    </div>
+
+    <div class="status-bar status-idle" id="status-bar">
+      <span class="status-icon">○</span>
+      <span class="status-text">Awaiting input...</span>
+    </div>
+  </div>
+
+  <!-- Hash Generator -->
+  <div class="card">
+    <div class="section-label">▶ Hash Generator</div>
+    <div class="field-group" style="margin-bottom: 1rem;">
+      <div class="field-label">Text to Hash</div>
+      <input type="text" id="hash-input" placeholder="Type something to compute hashes in real-time..." />
+    </div>
+    <div class="hash-grid" id="hash-grid">
+      <div class="hash-row">
+        <span class="hash-name">SHA-256</span>
+        <span class="hash-value" id="h-sha256">—</span>
+        <button class="hash-copy" data-target="h-sha256">copy</button>
+      </div>
+      <div class="hash-row">
+        <span class="hash-name">SHA-1</span>
+        <span class="hash-value" id="h-sha1">—</span>
+        <button class="hash-copy" data-target="h-sha1">copy</button>
+      </div>
+      <div class="hash-row">
+        <span class="hash-name">MD5</span>
+        <span class="hash-value" id="h-md5">—</span>
+        <button class="hash-copy" data-target="h-md5">copy</button>
+      </div>
+      <div class="hash-row">
+        <span class="hash-name">SHA-512</span>
+        <span class="hash-value" id="h-sha512">—</span>
+        <button class="hash-copy" data-target="h-sha512">copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Strength Checker -->
+  <div class="card">
+    <div class="section-label">▶ Password Strength Checker</div>
+    <div class="field-group" style="margin-bottom: 1rem;">
+      <div class="field-label">Password</div>
+      <div class="pass-input-wrap">
+        <input type="password" id="pass-input" placeholder="Enter a password to analyze..." />
+        <button class="eye-btn" id="eye-btn">👁</button>
+      </div>
+    </div>
+    <div class="strength-bars" id="strength-bars">
+      <div class="sbar" id="sbar-1"></div>
+      <div class="sbar" id="sbar-2"></div>
+      <div class="sbar" id="sbar-3"></div>
+      <div class="sbar" id="sbar-4"></div>
+      <div class="sbar" id="sbar-5"></div>
+    </div>
+    <div class="strength-label" id="strength-label">Enter a password above</div>
+    <div class="pass-criteria" id="pass-criteria">
+      <div class="criteria-item" id="cr-len">✗ At least 8 characters</div>
+      <div class="criteria-item" id="cr-upper">✗ Uppercase letter</div>
+      <div class="criteria-item" id="cr-lower">✗ Lowercase letter</div>
+      <div class="criteria-item" id="cr-num">✗ Number</div>
+      <div class="criteria-item" id="cr-sym">✗ Special character (!@#$...)</div>
+    </div>
+  </div>
+
+  <!-- About / Reference -->
+  <div class="card card-ref">
+    <div class="section-label">▶ Algorithm Reference</div>
+    <div class="ref-grid">
+      <div class="ref-item">
+        <div class="ref-name">AES-256</div>
+        <div class="ref-desc">Advanced Encryption Standard. Symmetric block cipher used by governments and militaries. Extremely secure with a strong key.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-name">Caesar</div>
+        <div class="ref-desc">Substitution cipher shifting each letter by a fixed number. Historical cipher, easily broken by frequency analysis.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-name">Vigenere</div>
+        <div class="ref-desc">Polyalphabetic cipher using a keyword. Each letter uses a different Caesar shift. Much stronger than Caesar alone.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-name">Base64</div>
+        <div class="ref-desc">Encoding scheme (not encryption) converting binary data to ASCII. Used widely in data transfer, APIs, and URLs.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-name">ROT-13</div>
+        <div class="ref-desc">Rotates letters by 13. Applying it twice restores original. Symmetric — same operation encrypts and decrypts.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-name">XOR</div>
+        <div class="ref-desc">Bitwise XOR with a repeating key. Foundation of many modern ciphers. Perfect secrecy when key is random and as long as plaintext.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>CipherLab &copy; 2025 — Built for learning cybersecurity concepts</span>
+  </div>
+
+  <!-- CryptoJS CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="js/algorithms.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
